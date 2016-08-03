@@ -41,7 +41,7 @@ $(document).ready(function(){
 	$("#search").click(function(){ 
 		$.ajax({ 
 		    type: "GET", 	
-			url: "http://127.0.0.1:8080/ajaxdemo/serverjson2.php?number=" + $("#keyword").val(),
+			url: "serverjson2.php?number=" + $("#keyword").val(),
 			dataType: "json",
 			success: function(data) {
 				if (data.success) { 

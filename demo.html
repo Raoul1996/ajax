@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Demo</title>
+    <style>
+        *{
+            font-size: 30px;
+            line-height: 1.8em;
+        }
+
+    </style>
+</head>
+<body>
+<h1>SeachStaff</h1>
+<!--<form action="">-->
+    <p><label for="keyword">StaffNum：</label><input type="text" id="keyword"></p>
+    <p><label for="search"></label><input type="button" id="search" value="search"></p>
+    <p id="searchResult"></p>
+<!--</form>-->
+<h1>CreatStaff</h1>
+<!--<form action="">-->
+    <p><label for="staffName">StaffName:</label><input type="text" id="staffName" name="name" /></p>
+    <p><label for="staffNumber">StaffNum :</label><input type="text" id="staffNumber" name="num" /></p>
+    <p><label for="staffJob">StaffJob :</label><input type="text" id="staffJob" name="staffJob"/></p>
+    <p><label for="staffSex">StaffSex :</label><select id="staffSex">
+        <option value="Man">man</option>
+        <option value="Woman">woman</option>
+    </select></p>
+    <p><label for="save"></label><input type="button" id="save" name="submit" value="submit"/></p>
+    <p id="saveResult"></p>
+    <!--<p><img src="http://image.tianjimedia.com/uploadImages/2015/085/30/PWM888SB76FY.jpg" alt=""></p>-->
+<!--</form>-->
+<script>
+    window.onload=function () {
+        //search worker !
+        var search = document.getElementById("search");
+        function getid(id) {
+            return document.getElementById(id).value;
+        }
+        search.onclick = function () {
+            //发送ajax查询请求并处理
+//            var keyword = document.getElementById("keyword");
+            var request = new XMLHttpRequest();
+            request.open("GET", "server.php?number=" + getid("keyword"));
+            request.send();
+            request.onreadystatechange = function () {
+                if (request.readyState === 4) {
+                    if (request.status === 200) {
+                        document.getElementById("searchResult").innerHTML = request.responseText;
+                    } else {
+                        alert("error" + request.status);
+                    }
+                }
+            }
+        }
+            //creat new straff
+            var save = document.getElementById("save");
+//                var data = "name=" + document.getElementById("staffName").value
+//                        + "&number=" + document.getElementById("staffNumber").value
+//                        + "&sex=" + document.getElementById("staffSex").value
+//                        + "&job=" + document.getElementById("staffJob").value;
+            save.onclick = function () {
+                //发送ajax查询请求并处理
+                var keyword = document.getElementById("save");
+                var request = new XMLHttpRequest();
+                request.open("POST", "server.php");
+                var data = "name="+getid("staffName") + "&number=" + getid("staffNumber") + "&sex=" + getid("staffSex") + "&job=" +getid("staffJob");
+                request.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                request.send(data);
+                request.onreadystatechange = function () {
+                    if (request.readyState === 4) {
+                        if (request.status === 200) {
+                            document.getElementById("saveResult").innerHTML = request.responseText;
+                        } else {
+                            alert("error" + request.status);
+                        }
+                    }
+                }
+            }
+    }
+</script>
+</body>
+</html>
